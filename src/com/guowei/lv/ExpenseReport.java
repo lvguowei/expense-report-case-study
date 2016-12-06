@@ -15,25 +15,22 @@ class ExpenseReport {
 
         for (Expense expense : expenses) {
             if (expense.isMeal())
-                mealExpenses += expense.amount;
+                mealExpenses += expense.getAmount();
 
             String name = "TILT";
-            switch (expense.type) {
-                case DINNER:
-                    name = "Dinner";
-                    break;
-                case BREAKFAST:
-                    name = "Breakfast";
-                    break;
-                case CAR_RENTAL:
-                    name = "Car Rental";
-                    break;
+            if (expense instanceof DinnerExpense) {
+                name = "Dinner";
+            } else if (expense instanceof BreakfastExpense) {
+                name = "Breakfast";
+            } else if (expense instanceof CarRentalExpense) {
+                name = "Car Rental";
             }
+
             printer.print(String.format("%s\t%s\t$%.02f\n",
                     expense.isOverage() ? "X" : " ",
-                    name, expense.amount / 100.0));
+                    name, expense.getAmount() / 100.0));
 
-            total += expense.amount;
+            total += expense.getAmount();
         }
 
         printer.print(String.format("\nMeal expenses $%.02f", mealExpenses / 100.0));

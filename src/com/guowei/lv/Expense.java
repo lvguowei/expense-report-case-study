@@ -1,26 +1,19 @@
 package com.guowei.lv;
 
-import static com.guowei.lv.Expense.Type.BREAKFAST;
-import static com.guowei.lv.Expense.Type.DINNER;
 
-class Expense {
+abstract class Expense {
 
-    enum Type {DINNER, BREAKFAST, CAR_RENTAL}
+    private int amount;
 
-    Type type;
-    int amount;
-
-    Expense(Type type, int amount) {
-        this.type = type;
+    Expense(int amount) {
         this.amount = amount;
     }
 
-    boolean isOverage() {
-        return (type == DINNER && amount > 5000)
-                || (type == BREAKFAST && amount > 1000);
+    public int getAmount() {
+        return amount;
     }
 
-    boolean isMeal() {
-        return type == BREAKFAST || type == DINNER;
-    }
+    abstract boolean isOverage();
+
+    abstract boolean isMeal();
 }

@@ -3,9 +3,6 @@ package com.guowei.lv;
 import org.junit.Before;
 import org.junit.Test;
 
-import static com.guowei.lv.Expense.Type.BREAKFAST;
-import static com.guowei.lv.Expense.Type.CAR_RENTAL;
-import static com.guowei.lv.Expense.Type.DINNER;
 import static junit.framework.TestCase.assertEquals;
 
 public class Tests {
@@ -33,7 +30,7 @@ public class Tests {
 
     @Test
     public void printOneDinner() {
-        report.addExpense(new Expense(DINNER, 1678));
+        report.addExpense(new DinnerExpense(1678));
         report.printReport(printer);
 
         assertEquals(
@@ -47,8 +44,8 @@ public class Tests {
 
     @Test
     public void twoMeals() throws Exception {
-        report.addExpense(new Expense(DINNER, 1000));
-        report.addExpense(new Expense(BREAKFAST, 500));
+        report.addExpense(new DinnerExpense(1000));
+        report.addExpense(new BreakfastExpense(500));
         report.printReport(printer);
 
         assertEquals(
@@ -64,9 +61,9 @@ public class Tests {
 
     @Test
     public void twoMealsAndCarRental() throws Exception {
-        report.addExpense(new Expense(DINNER, 1000));
-        report.addExpense(new Expense(BREAKFAST, 500));
-        report.addExpense(new Expense(CAR_RENTAL, 50000));
+        report.addExpense(new DinnerExpense(1000));
+        report.addExpense(new BreakfastExpense(500));
+        report.addExpense(new CarRentalExpense(50000));
         report.printReport(printer);
 
         assertEquals(
@@ -82,10 +79,10 @@ public class Tests {
 
     @Test
     public void overages() throws Exception {
-        report.addExpense(new Expense(BREAKFAST, 1000));
-        report.addExpense(new Expense(BREAKFAST, 1001));
-        report.addExpense(new Expense(DINNER, 5000));
-        report.addExpense(new Expense(DINNER, 5001));
+        report.addExpense(new BreakfastExpense(1000));
+        report.addExpense(new BreakfastExpense(1001));
+        report.addExpense(new DinnerExpense(5000));
+        report.addExpense(new DinnerExpense(5001));
         report.printReport(printer);
 
         assertEquals(
