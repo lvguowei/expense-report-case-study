@@ -3,10 +3,6 @@ package com.guowei.lv;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.guowei.lv.Expense.Type.BREAKFAST;
-import static com.guowei.lv.Expense.Type.DINNER;
-
-
 class ExpenseReport {
 
     private List<Expense> expenses = new ArrayList<>();
@@ -18,7 +14,7 @@ class ExpenseReport {
         printer.print("Expenses " + getDate() + "\n");
 
         for (Expense expense : expenses) {
-            if (isMeal(expense))
+            if (expense.isMeal())
                 mealExpenses += expense.amount;
 
             String name = "TILT";
@@ -34,7 +30,7 @@ class ExpenseReport {
                     break;
             }
             printer.print(String.format("%s\t%s\t$%.02f\n",
-                    isOverage(expense) ? "X" : " ",
+                    expense.isOverage() ? "X" : " ",
                     name, expense.amount / 100.0));
 
             total += expense.amount;
@@ -42,15 +38,6 @@ class ExpenseReport {
 
         printer.print(String.format("\nMeal expenses $%.02f", mealExpenses / 100.0));
         printer.print(String.format("\nTotal $%.02f", total / 100.0));
-    }
-
-    private boolean isOverage(Expense expense) {
-        return (expense.type == DINNER && expense.amount > 5000)
-                || (expense.type == BREAKFAST && expense.amount > 1000);
-    }
-
-    private boolean isMeal(Expense expense) {
-        return expense.type == BREAKFAST || expense.type == DINNER;
     }
 
     void addExpense(Expense expense) {

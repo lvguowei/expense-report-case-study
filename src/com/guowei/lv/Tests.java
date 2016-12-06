@@ -100,7 +100,7 @@ public class Tests {
                 printer.getText());
     }
 
-    class MockReportPrinter implements ReportPrinter {
+    private class MockReportPrinter implements ReportPrinter {
 
         private String printedText = "";
 
