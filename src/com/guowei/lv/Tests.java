@@ -7,18 +7,20 @@ import static junit.framework.TestCase.assertEquals;
 
 public class Tests {
 
-    private ExpenseReport report = new ExpenseReport();
-    private MockReportPrinter printer = new MockReportPrinter();
+    private ExpenseReport report;
+    private ExpenseReporter reporter;
+    private MockReportPrinter printer;
 
     @Before
     public void setUp() {
         report = new ExpenseReport();
+        reporter =  new ExpenseReporter(report);
         printer = new MockReportPrinter();
     }
 
     @Test
     public void printEmpty() {
-        report.printReport(printer);
+        reporter.printReport(printer);
 
         assertEquals(
                 "Expenses 9/12/2002\n" +
@@ -31,7 +33,7 @@ public class Tests {
     @Test
     public void printOneDinner() {
         report.addExpense(new DinnerExpense(1678));
-        report.printReport(printer);
+        reporter.printReport(printer);
 
         assertEquals(
                 "Expenses 9/12/2002\n" +
@@ -46,7 +48,7 @@ public class Tests {
     public void twoMeals() throws Exception {
         report.addExpense(new DinnerExpense(1000));
         report.addExpense(new BreakfastExpense(500));
-        report.printReport(printer);
+        reporter.printReport(printer);
 
         assertEquals(
                 "Expenses 9/12/2002\n" +
@@ -64,7 +66,7 @@ public class Tests {
         report.addExpense(new DinnerExpense(1000));
         report.addExpense(new BreakfastExpense(500));
         report.addExpense(new CarRentalExpense(50000));
-        report.printReport(printer);
+        reporter.printReport(printer);
 
         assertEquals(
                 "Expenses 9/12/2002\n" +
@@ -83,7 +85,7 @@ public class Tests {
         report.addExpense(new BreakfastExpense(1001));
         report.addExpense(new DinnerExpense(5000));
         report.addExpense(new DinnerExpense(5001));
-        report.printReport(printer);
+        reporter.printReport(printer);
 
         assertEquals(
                 "Expenses 9/12/2002\n" +
@@ -101,6 +103,7 @@ public class Tests {
 
         private String printedText = "";
 
+        @Override
         public void print(String text) {
             printedText += text;
         }
