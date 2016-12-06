@@ -18,7 +18,7 @@ class ExpenseReport {
         printer.print("Expenses " + getDate() + "\n");
 
         for (Expense expense : expenses) {
-            if (expense.type == BREAKFAST || expense.type == DINNER)
+            if (isMeal(expense))
                 mealExpenses += expense.amount;
 
             String name = "TILT";
@@ -34,8 +34,7 @@ class ExpenseReport {
                     break;
             }
             printer.print(String.format("%s\t%s\t$%.02f\n",
-                    ((expense.type == DINNER && expense.amount > 5000)
-                            || (expense.type == BREAKFAST && expense.amount > 1000)) ? "X" : " ",
+                    isOverage(expense) ? "X" : " ",
                     name, expense.amount / 100.0));
 
             total += expense.amount;
@@ -43,6 +42,15 @@ class ExpenseReport {
 
         printer.print(String.format("\nMeal expenses $%.02f", mealExpenses / 100.0));
         printer.print(String.format("\nTotal $%.02f", total / 100.0));
+    }
+
+    private boolean isOverage(Expense expense) {
+        return (expense.type == DINNER && expense.amount > 5000)
+                || (expense.type == BREAKFAST && expense.amount > 1000);
+    }
+
+    private boolean isMeal(Expense expense) {
+        return expense.type == BREAKFAST || expense.type == DINNER;
     }
 
     void addExpense(Expense expense) {
